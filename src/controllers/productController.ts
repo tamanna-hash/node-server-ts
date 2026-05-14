@@ -20,6 +20,15 @@ export const productController = async (
     res.end(JSON.stringify({ message: "here are products", data: products }));
   } else if (method === "GET" && id !== null) {
     // get single product
+    if (!id) {
+      res.writeHead(404, { "content-type": "application/json" });
+      res.end(
+        JSON.stringify({
+          message: "Product not found",
+          data: null,
+        }),
+      );
+    }
     const products = readProduct(req, res);
     const product = products.find((p: IProducts) => p.id === id);
     res.writeHead(200, { "content-type": "application/json" });
@@ -39,12 +48,62 @@ export const productController = async (
     };
     products.push(newProduct);
     insertProduct(products);
-    console.log(newProduct);
+    // console.log(newProduct);
     res.writeHead(200, { "content-type": "application/json" });
     res.end(
       JSON.stringify({
         message: "Product retrieved successfully",
-        data:newProduct
+        data: newProduct,
+      }),
+    );
+  } else if (method === "PUT" && id !== null) {
+    // Post product
+    const body = await parseBody(req);
+    const products = readProduct(req, res);
+
+    const index = products.findIndex((p: IProducts) => p.id === id);
+
+    if (index < 0) {
+      res.writeHead(404, { "content-type": "application/json" });
+      res.end(
+        JSON.stringify({
+          message: "Product not found",
+          data: null,
+        }),
+      );
+    }
+    products[index] = { id: products[index].id, ...body };
+    insertProduct(products);
+    res.writeHead(200, { "content-type": "application/json" });
+    res.end(
+      JSON.stringify({
+        message: "Product updated successfully",
+        data: products[index],
+      }),
+    );
+  } else if (method === "DELETE" && id !== null) {
+    // Post product
+    const body = await parseBody(req);
+    const products = readProduct(req, res);
+
+    const index = products.findIndex((p: IProducts) => p.id === id);
+
+    if (index < 0) {
+      res.writeHead(404, { "content-type": "application/json" });
+      res.end(
+        JSON.stringify({
+          message: "Product not found",
+          data: null,
+        }),
+      );
+    }
+    products.splice(index, 1);
+    insertProduct(products);
+    res.writeHead(200, { "content-type": "application/json" });
+    res.end(
+      JSON.stringify({
+        message: "Product deleted successfully",
+        data: null,
       }),
     );
   }

@@ -3,6 +3,5 @@
   { "id": 2, "name": "helmet", "price": 1200, "quantity": 1 },
   { "id": 3, "name": "knee pads", "price": 800, "quantity": 3 },
   { "id": 4, "name": "longboard", "price": 5500, "quantity": 1 },
-  { "id": 5, "name": "wheels", "price": 1500, "quantity": 4 },
   { "id": 1778743100274, "name": "cruiser board", "price": 3500, "quantity": 1 }
 ]
