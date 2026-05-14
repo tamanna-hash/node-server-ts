@@ -3,9 +3,7 @@ import { routeHandler } from "./routes/route";
 
 const server: Server = createServer(
   (req: IncomingMessage, res: ServerResponse) => {
-  
-    routeHandler(req,res)
-
+    routeHandler(req, res);
     // console.log(req);
   },
 );
